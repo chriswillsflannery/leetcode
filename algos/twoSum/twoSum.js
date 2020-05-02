@@ -13,7 +13,7 @@ return [0, 1].
 
 */
 
-const expectEquals = require('../utils/assertionTests');
+const expectEquals = require('../../utils/assertionTests');
 
 function twoSum(nums, target) {
   const oppos = {}; // { 7:0, }

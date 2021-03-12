@@ -67,5 +67,6 @@ console.log(getMaxProfit(arr1));
 // var arr1 = [10, 7, 5, 8, 11, 9, 1];
 // console.log(getMp(arr1));
 
-//The approach we used to solving this problem is also know as a “greedy” approach. Why greedy? At every step of the problem we make the best — or greediest decision available to us at that point. In this case, doing that for every step of the problem will result in the optimal solution in the end.
-//Using a “greedy” approach doesn’t always work. In class, we will discuss the traits of greedy problems, and I will elaborate on cases in which they do not provide an optimal solution, and why we may still want to use this approach anyways.
+//The approach we used to solving this problem is also know as a “greedy” approach. Why greedy?
+// At every step of the problem we make the best — or greediest decision available to us at that point.
+// In this case, doing that for every step of the problem will result in the optimal solution in the end.

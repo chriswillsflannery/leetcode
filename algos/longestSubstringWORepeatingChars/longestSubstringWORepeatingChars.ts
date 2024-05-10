@@ -15,19 +15,20 @@ function lengthOfLongestSubstring(s: string): number {
     // iterate with 2 pointer method, and add to hash map counts
     // if any counts > 1 restart iteration on char which is duplicated
     // save longest substring length seen so far
-    const hash: Hash = {}
-    let ptr1 = 0
+    let hash: Hash = {}
+    let ptr1 = -1
     let maxLen = 0
     let len = 0
 
     while (ptr1 < s.length) {
-      if (hash[ptr1]) { 
-        ptr1 += 1;
+    ptr1 += 1;
+      if (hash[s[ptr1]]) { 
         maxLen = Math.max(maxLen, len)
         len = 0;
-        continue;
+        ptr1 -= 1;
+        hash = {}
       } else {
-        hash[ptr1] = 1;
+        hash[s[ptr1]] = 1;
         len += 1;
       }
     }

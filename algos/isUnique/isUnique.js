@@ -1,6 +1,40 @@
-// implement an algorithm to determine if a string
-// has all unique chars.
-// what if you cannot use additional data structures?
+
+// implement an algorithm to determine
+// if a list of strings has a duplicate.
+
+function hasDuplicates(names) {
+  const occurences = {};
+
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i];
+    if (occurences[name]) {
+      return true;
+    }
+    occurences[name] = 1;
+  }
+  return false;
+}
+
+console.log(hasDuplicates(["jim", "pam", "toby", "toby"])); //true
+console.log(hasDuplicates(["jim", "pam", "michael"])); // false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const isUnique = (s) => {
 //   const occurences = {};
@@ -35,5 +69,5 @@ const isUnique = (s) => {
   return true;
 };
 
-console.log(isUnique("abcdefg")); // true
-console.log(isUnique("abcdajkl")); // false
+// console.log(isUnique("abcdefg")); // true
+// console.log(isUnique("abcdajkl")); // false

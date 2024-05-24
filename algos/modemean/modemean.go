@@ -7,18 +7,24 @@
 
 package main
 
-func mean(n []int) {
+import (
+	"fmt"
+	"math"
+)
+
+func mean(n []int) int {
 	sum := 0
 	for num := range n {
 		sum += num
 	}
-	return Math.floor(sum / length(n))
+	divided := sum / len(n)
+	return int(math.Floor(float64(divided)))
 }
 
-func mode(n []int) {
+func mode(n []int) int {
 	hash := make(map[int]int)
 	for num := range n {
-		if hash[num] {
+		if num, ok := hash[num]; ok {
 			hash[num] += 1
 		} else {
 			hash[num] = 1
@@ -29,7 +35,7 @@ func mode(n []int) {
 	maxModeValue := 1
 
 	for mode, modeval := range hash {
-		if mode > maxMode && modeVal >= maxModeValue {
+		if mode > maxMode && modeval >= maxModeValue {
 			maxMode = mode
 			maxModeValue = modeval
 		}
@@ -38,18 +44,18 @@ func mode(n []int) {
 	return maxMode
 }
 
-func modeMean(n []int) {
-	if len(n) === 0 {
+func modeMean(n []int) bool {
+	if len(n) == 0 {
 		return false
 	}
-	if len(n) === 1 {
+	if len(n) == 1 {
 		return true
 	}
 	return mode(n) == mean(n)
 }
 
 func main() {
-	fmt.Print(modeMean([1, 2, 2, 3, 3, 4, 5]))
+	fmt.Print(modeMean([]int{1, 2, 2, 3, 3, 4, 5}))
 }
 
 // console.log(modeMean([1, 2, 2, 3, 3, 4, 5])); // mode 3. mean 2. false

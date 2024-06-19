@@ -88,7 +88,7 @@ const App = () => {
   return (
     <div className="app">
       {items.map((item) => (
-        <Item item={item} />
+        <Item key={item.id} item={item} />
       ))}
     </div>
   );

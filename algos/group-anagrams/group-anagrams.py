@@ -16,6 +16,7 @@ class Solution:
         # eg. ord('a') returns 97
         # so ord('c') - ord('a') returns 2, the correct position for c in 26 chars
       ans[tuple(count)].append(string)
+      # tuples can be used as strings in dicts because tuple is immutable
       # print(ans)
     return ans.values()
     

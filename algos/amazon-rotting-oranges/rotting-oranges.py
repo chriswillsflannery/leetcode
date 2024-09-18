@@ -67,3 +67,18 @@ class Solution:
         if countFreshOrange == 0:
             return minutes
         return -1
+    
+    """
+    start by identifying all spaces which have rotten oranges.
+    add those to queue.
+    identify all fresh oranges and total them.
+    work through queue. Each time through queue, increase time.
+    For each item in queue, rot all adjacent items.
+    Newly rotted items get added to queue.
+    Newly rotten items get subtracted from fresh count.
+    Each new "Layer" of rotten items goes into queue.
+    Total # of times through queue = total minutes.
+
+    If queue gets emptied completely and fresh count still > 0
+    we can't rot all items (some unreachable)
+    """ 

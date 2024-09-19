@@ -25,11 +25,25 @@ class Solution:
         localSum = 0
 
         for num in nums:
+            localSum = max(localSum, 0)
             localSum += num
             maxSum = max(maxSum, localSum)
-            if localSum < 0:
-                localSum = 0
         return maxSum
     
     def kadanesSlidingWindow(self, nums: List[int]) -> int:
-        
+        maxSum = nums[0]
+        localSum = 0
+        maxL, maxR = 0,0
+        L = 0
+
+        for R in range(len(nums)):
+            if localSum < 0:
+                localSum = 0
+                L = R
+
+            localSum += nums[R]
+            if localSum > maxSum:
+                maxSum = localSum
+                maxL, maxR = L, R
+                
+        return [maxL, maxR]

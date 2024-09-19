@@ -30,6 +30,7 @@ class Solution:
             maxSum = max(maxSum, localSum)
         return maxSum
     
+    # this allows us to return the indices of left and right portion of max window
     def kadanesSlidingWindow(self, nums: List[int]) -> int:
         maxSum = nums[0]
         localSum = 0
@@ -45,5 +46,5 @@ class Solution:
             if localSum > maxSum:
                 maxSum = localSum
                 maxL, maxR = L, R
-                
+
         return [maxL, maxR]

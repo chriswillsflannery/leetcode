@@ -31,18 +31,6 @@ time 3: request 3 is removed as processed. Number of requests in queue is 0. que
 answer: [4,2,1,0]
 (number of requests in the queue at each instant until queue becomes empty)
 
-*/
-
-/*
- * Complete the 'findRequestsInQueue' function below.
- *
- * The function is expected to return an INTEGER_ARRAY.
- * The function accepts INTEGER_ARRAY wait as parameter.
- */
-
-function findRequestsInQueue(wait) {
-  // Write your code here
-}
 
 // import heapq
 

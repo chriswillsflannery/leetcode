@@ -1,0 +1,3 @@
+Provider Name, Availability Start, Availability End
+Dr. Scooby Doo, 08:00, 18:00
+Dr. Shaggy Rogers, 09:00, 17:00

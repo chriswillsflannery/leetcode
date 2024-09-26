@@ -1,5 +1,7 @@
 /*
 
+This is just a really weirdly worded version of number Of Islands
+
 Audible Gifting Groups
 At audible, a subscriber can gift an audiobook from his/her library to any other non-subscriber to
 kick start their audiobook journey. The first time subscriber can receive up to a max of N audiobooks

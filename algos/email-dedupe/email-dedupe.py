@@ -136,6 +136,12 @@ if __name__ == "__main__":
 """
 The purpose of this excercise is to review the above code as if it were a PR.
 
+Concern: direct attribution in class could lead to attribution, better to use whitelisting.
+We can constrain whitelisted attributes in a Set, and then check if an attribute is whitelisted before adding it.
+
+By including the "print_out" method here, we're violating the Single Responsibility Principle.
+We should separate formatting and printing responsibilities.
+
 For any one of these checks:
 if hasattr(self, "first_name") and self.first_name:
 we could simplify it with getattr, like so:

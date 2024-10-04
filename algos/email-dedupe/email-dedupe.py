@@ -135,4 +135,10 @@ if __name__ == "__main__":
 
 """
 The purpose of this excercise is to review the above code as if it were a PR.
+
+For any one of these checks:
+if hasattr(self, "first_name") and self.first_name:
+we could simplify it with getattr, like so:
+if getattr(self, "first_name", None): do something
+here, we use a default fallback value.
 """

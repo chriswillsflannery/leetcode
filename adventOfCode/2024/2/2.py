@@ -77,7 +77,64 @@ def main(numbers):
             num_safe += 1
     return num_safe
 
+#### part two
+
+"""
+if by removing one (bad) value from a sequence, this makes the sequence safe,
+then we can call that sequence safe.
+
+For example, in the original problem, this sequence was unsafe:
+[1,2,9,3,4]
+But if we remove 9, the sequence becomes:
+[1,2,3,4] and it is now safe
+
+For example, in the original problem, this sequence was unsafe:
+[1,2,6,7,8]
+And even if we remove any value, it is still unsafe.
+
+examples:
+
+seq [1,2,3,4,10]
+diffs [1,1,1,6]
+-remove 6 to make valid
+-we remove first jump greater than 3
+
+seq [1,10,3,4,5]
+diffs [9,-7,1,1]
+- remove 10, but here, we have to recompute diffs
+
+how do we know to remove a value because its diff is opposite sign, or because it's < 1 || > 3?
+
+Run through a sequence.
+[1,-2,3,4,5]
+For example here, how do we know that -2 is the rulebreaker?
+
+we can brute force this by testing:
+if sequence is valid
+OR
+if sequence is valid after removing value, for each value in sequence
+
+"""
+
+def safe_after_removing_one_val(sequence):
+    for i in range(len(sequence)):
+        modified_sequence = sequence[:i] + sequence[i+1:]
+        if is_valid_sequence(modified_sequence):
+            return True
+    return False
+
+def main2(numbers):
+    num_safe = 0
+    for sequence in numbers:
+        if is_valid_sequence(sequence) or safe_after_removing_one_val(sequence):
+            num_safe += 1
+    return num_safe
+
+
 if __name__ == '__main__':
     numbers = parse_input('2-input.txt')
     res = main(numbers)
     print(res)
+
+    res2 = main2(numbers)
+    print(res2)

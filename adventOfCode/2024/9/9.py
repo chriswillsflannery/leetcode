@@ -1,67 +1,59 @@
-import numpy as np
-
 def parse_text(filename):
     with open(filename, 'r') as file:
         return file.read().strip()
 
-if __name__ == "__main__":
-    # Get input
-    disk_map_compressed = parse_text('9-input1.txt')
+def main():
+    input_text = parse_text('9-input1.txt')
     
-    # Pre-calculate total length and create array at once
-    total_length = sum(int(c) for c in disk_map_compressed)
-    disk_map = np.empty(total_length, dtype=np.int64)
+    # Process input into disk array
+    disk = []
+    index = 0
+    file_id = -1
     
-    # Fill array in one pass
-    pos = 0
-    id = 0
-    for i, v in enumerate(disk_map_compressed, start=1):
-        length = int(v)
-        if i % 2 == 0:
-            disk_map[pos:pos+length] = -1
-        else:
-            disk_map[pos:pos+length] = id
-            id += 1
-        pos += length
-    
-    # Process from end to beginning
-    max_id_idx = len(disk_map)
-    while id >= 0:
-        id -= 1
+    while index < len(input_text):
+        # Process file section
+        file_id += 1
+        file_length = int(input_text[index])
+        disk.extend([file_id] * file_length)
+        index += 1
         
-        # Find the block boundaries
-        while disk_map[max_id_idx - 1] != id:
-            max_id_idx -= 1
+        if index >= len(input_text):
+            break
             
-        min_id_idx = max_id_idx - 1
-        while min_id_idx > 0 and disk_map[min_id_idx - 1] == id:
-            min_id_idx -= 1
-            
-        id_size = max_id_idx - min_id_idx
-        
-        # Find suitable empty slot
-        min_empty_slot_idx = 0
+        # Process blank section
+        blank_length = int(input_text[index])
+        disk.extend([-1] * blank_length)
+        index += 1
+    
+    # Move files
+    left_index = -1
+    right_index = len(disk)
+    
+    while True:
+        # Find next blank space from left
         while True:
-            while disk_map[min_empty_slot_idx] != -1:
-                min_empty_slot_idx += 1
-                
-            max_empty_slot_idx = min_empty_slot_idx + 1
-            while disk_map[max_empty_slot_idx] == -1:
-                max_empty_slot_idx += 1
-                
-            empty_slot_size = max_empty_slot_idx - min_empty_slot_idx
-            
-            if empty_slot_size >= id_size:
-                break
-            min_empty_slot_idx += empty_slot_size
-            if min_empty_slot_idx >= min_id_idx:
+            left_index += 1
+            if left_index >= len(disk) or left_index >= right_index:
+                return disk
+            if disk[left_index] == -1:
                 break
         
-        # Move block if we found a suitable spot
-        if min_empty_slot_idx < min_id_idx:
-            disk_map[min_empty_slot_idx:min_empty_slot_idx+id_size] = id
-            disk_map[min_id_idx:max_id_idx] = -1
+        # Find next file from right
+        while True:
+            right_index -= 1
+            if right_index <= left_index:
+                return disk
+            if disk[right_index] != -1:
+                break
+        
+        # Move file
+        disk[left_index] = disk[right_index]
+        disk[right_index] = -1
     
-    # Calculate checksum (no need to replace -1s)
-    checksum = sum(i * v for i, v in enumerate(disk_map) if v != -1)
+    return disk
+
+if __name__ == "__main__":
+    disk = main()
+    # Calculate checksum
+    checksum = sum(i * file_id for i, file_id in enumerate(disk) if file_id != -1)
     print(f'Filesystem checksum: {checksum}')

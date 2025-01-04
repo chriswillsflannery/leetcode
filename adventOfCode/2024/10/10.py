@@ -31,6 +31,7 @@ def dfs_grid(grid: List[List[int]]) -> int:
         dfs(r_offset,c_offset,visited,reachable_nines)
         #backtrack - remove from visited
         visited.remove((r_offset, c_offset))
+        
   total_score = 0
 
   #find all trailheads

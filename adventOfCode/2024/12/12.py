@@ -29,12 +29,12 @@ def parse_board(board: List[List[str]]) -> int:
   perim_for_char = {}
 
   def dfs(row: int, col: int, char: str):
-    visited.add((row,char))
+    visited.add((row,col))
     ## computing area
     if char in area_for_char:
       area_for_char[char] += 1
     else:
-      area_for_char = 1
+      area_for_char[char] = 1
 
     for xoffset, yoffset in directions:
       ## computing perimeter
@@ -46,26 +46,28 @@ def parse_board(board: List[List[str]]) -> int:
         else:
           perim_for_char[char] += 1
 
-      if 0 <= newx < ROWS and 0 <= newy < COLS and board[newx][newy] and (newx, newy) not in visited:
+      # continue dfs for adjacent valid cells of same character
+      if 0 <= newx < ROWS and 0 <= newy < COLS and board[newx][newy] == char and (newx, newy) not in visited:
         dfs(newx, newy, char)
 
-  for row in ROWS:
-    for col in COLS:
-      if (row,col) in visited:
-        continue
-      char = board[row][col]
-      dfs(row, col, char)
+  for row in range(ROWS):
+    for col in range(COLS):
+      if (row, col) not in visited:
+        char = board[row][col]
+        dfs(row,col,char)
   
-  sum = 0
-  for areakey in area_for_char.keys():
-    area = area_for_char[areakey]
-    perimeter = perim_for_char[areakey]
-    total = area * perimeter
-    sum += total
-  return sum
+  # calculate total price
+  total = 0
+  for char in area_for_char:
+      area = area_for_char[char]
+      perimeter = perim_for_char[char]
+      price = area * perimeter
+      total += price
+  
+  return total
 
 if __name__  == '__main__':
   board = parse_input('12-input.txt')
   board = [list(line) for line in board]
-  areas = parse_board(board)
-  print(board)
+  totalprice = parse_board(board)
+  print(totalprice)

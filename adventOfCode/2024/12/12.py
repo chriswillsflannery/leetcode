@@ -25,46 +25,42 @@ def parse_board(board: List[List[str]]) -> int:
   visited = set()
   directions = [(0,1),(1,0),(0,-1),(-1,0)]
 
-  area_for_char = {}
-  perim_for_char = {}
+  def get_region_stats(row: int, col: int, char: str):
+    region_visited = set()
+    area = 0
+    perimeter = 0
+    stack = [(row,col)] # this could also be deque
 
-  def dfs(row: int, col: int, char: str):
-    visited.add((row,col))
-    ## computing area
-    if char in area_for_char:
-      area_for_char[char] += 1
-    else:
-      area_for_char[char] = 1
+    while stack:
+      curr_row, curr_col = stack.pop()
+      if (curr_row, curr_col) in region_visited:
+        continue
+        
+      region_visited.add((curr_row, curr_col))
+      visited.add((curr_row, curr_col))
+      area += 1
 
-    for xoffset, yoffset in directions:
-      ## computing perimeter
-      newx = row + xoffset
-      newy = col + yoffset
-      if newx < 0 or newx >= ROWS or newy < 0 or newy >= COLS or board[newx][newy] != char:
-        if char not in perim_for_char:
-          perim_for_char[char] = 1
-        else:
-          perim_for_char[char] += 1
+      for xoffset, yoffset in directions:
+        newx = curr_row + xoffset
+        newy = curr_col + yoffset
 
-      # continue dfs for adjacent valid cells of same character
-      if 0 <= newx < ROWS and 0 <= newy < COLS and board[newx][newy] == char and (newx, newy) not in visited:
-        dfs(newx, newy, char)
+        # check perimter
+        if newx < 0 or newx >= ROWS or newy < 0 or newy >= COLS or board[newx][newy] != char:
+          perimeter += 1
+        elif (newx, newy) not in region_visited:
+          stack.append((newx, newy))
 
+    return area * perimeter
+  
+  total_price = 0
   for row in range(ROWS):
     for col in range(COLS):
       if (row, col) not in visited:
         char = board[row][col]
-        dfs(row,col,char)
-  
-  # calculate total price
-  total = 0
-  for char in area_for_char:
-      area = area_for_char[char]
-      perimeter = perim_for_char[char]
-      price = area * perimeter
-      total += price
-  
-  return total
+        region_price = get_region_stats(row,col,char)
+        total_price += region_price
+
+  return total_price
 
 if __name__  == '__main__':
   board = parse_input('12-input.txt')

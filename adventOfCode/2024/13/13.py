@@ -1,10 +1,14 @@
-def parse_input(input_text):
+from multiprocessing import Pool
+from typing import Optional, Tuple, Dict, List
+
+def parse_input(input_text: str) -> List[Dict]:
   machines = []
   current_machine = {}
 
   for line in input_text.strip().split('\n'):
     if not line:
       continue # empty line
+
     if line.startswith('Button A:'):
       current_machine = {}
       x, y = line.split('Button A: ')[1].split(', ')
@@ -21,7 +25,11 @@ def parse_input(input_text):
       machines.append(current_machine)
   return machines
 
-def find_solution(machine):
+def find_solution(machine: Dict) -> Optional[Tuple[int,int.int]]:
+  """
+  Processing single machine and return (a_presses,
+  b_presses, token) if solvable, else return None
+  """
   ax, ay = machine['ax'], machine['ay']
   bx, by = machine['bx'], machine['by']
   target_x, target_y = machine['prize_x'], machine['prize_y']
@@ -31,27 +39,28 @@ def find_solution(machine):
     for b in range(101):
       # check if combination reaches target coords
       if (a * ax + b * bx == target_x) and (a * ay + b * by == target_y):
-        return a,b
+        tokens = (a * 3) + b
+        return (a,b,tokens)
   return None
 
-def calculate_tokens(a_presses, b_presses):
-  return (a_presses * 3) + b_presses
-
-def solve_puzzle(input_text):
+def solve_puzzle(input_text: str, num_processes: int = None) -> int:
   machines = parse_input(input_text)
+  
+  with Pool(processes=num_processes) as pool:
+    results = pool.map(find_solution, machines)
+
   total_tokens = 0
   solvable_count = 0
 
-  for i, machine in enumerate(machines):
-    solution = find_solution(machine)
-    if solution:
-      a_presses, b_presses = solution
-      tokens = calculate_tokens(a_presses, b_presses)
+  for i, result in enumerate(results):
+    if result:
+      a_presses, b_presses, tokens = result
       total_tokens += tokens
       solvable_count += 1
       print(f"machine {i} solved: {a_presses} A presses and {b_presses} B presses ({tokens} tokens)")
     else:
       print(f"Machine {i} no solution found")
+      
   print(f"total solvable machines: {solvable_count}")
   print(f"total tokens needed: {total_tokens}")
   return total_tokens
